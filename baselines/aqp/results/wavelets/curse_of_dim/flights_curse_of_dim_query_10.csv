@@ -1,0 +1,2 @@
+approach,query_no,latency,average_relative_error,bin_completeness,total_bins,query,sample_percentage,no_dim,max_num_coefficients,max_samples,upsampling
+ApproachType.WAVELET,10,0,inf,100,1,"SELECT year_date, SUM(arr_delay*dep_delay) FROM public.flights WHERE origin_state_abr = 'CA' AND dest_state_abr = 'HI' GROUP BY year_date;",1,3,30000,1000000,1000

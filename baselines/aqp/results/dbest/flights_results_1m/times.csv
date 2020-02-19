@@ -1,0 +1,13 @@
+Query ID;Time (s)
+['flights']dep_delay,year_dateorigin='ATL'[]_{'dep_delay': 'AVG'}_{'year_date': (1994.0, 2017.0)}_{'dep_delay': 'AVG'}_{'year_date': (1994.0, 2017.0)};12.905451949001872
+['flights']distance,year_dateunique_carrier='TW'[]_{'distance': 'AVG'}_{'year_date': (1994.0, 2017.0)}_{'distance': 'AVG'}_{'year_date': (1994.0, 2017.0)};13.488663928997994
+['flights']unique_carrier,dep_delay,year_dateorigin_state_abr='LA'['unique_carrier']_{'dep_delay': 'COUNT'}_{'year_date': (1994.0, 2017.0)}_{'dep_delay': 'COUNT'}_{'year_date': (1994.0, 2017.0)};7.426451577000989
+['flights']unique_carrier,dep_delay,year_dateorigin_state_abr='LA',dest_state_abr='CA'['unique_carrier']_{'dep_delay': 'COUNT'}_{'year_date': (1994.0, 2017.0)}_{'dep_delay': 'COUNT'}_{'year_date': (1994.0, 2017.0)};7.4087294669989205
+['flights']year_date,dep_delay,year_dateorigin_state_abr='LA',dest='JFK'['year_date']_{'dep_delay': 'COUNT'}_{'year_date': (1994.0, 2017.0)}_{'dep_delay': 'COUNT'}_{'year_date': (1994.0, 2017.0)};0.5280150010003126
+['flights']year_date,distance,year_dateunique_carrier='9E'['year_date']_{'distance': 'SUM'}_{'year_date': (1994.0, 2017.0)}_{'distance': 'SUM'}_{'year_date': (1994.0, 2017.0)};0.9601855930013699
+['flights']origin_state_abr,air_time,year_datedest='HPN'['origin_state_abr']_{'air_time': 'SUM'}_{'year_date': (1994.0, 2017.0)}_{'air_time': 'SUM'}_{'year_date': (1994.0, 2017.0)};9.881096578999859
+['flights']unique_carrier,dep_delay,year_dateorigin='PHX'['unique_carrier']_{'dep_delay': 'AVG'}_{'year_date': (2005.0, 2005.0)}_{'dep_delay': 'AVG'}_{'year_date': (2005.0, 2005.0)};5.786858741001197
+['flights']dest_state_abr,dep_delay,distance['dest_state_abr']_{'dep_delay': 'COUNT'}_{'distance': (2500.0, None)}_{'dep_delay': 'COUNT'}_{'distance': (2500.0, None)};2.166741223001736
+['flights']unique_carrier,dep_delay,air_time,dep_delay['unique_carrier']_{'dep_delay': 'COUNT'}_{'air_time': (1000.0, None), 'dep_delay': (1500.0, None)}_{'dep_delay': 'COUNT'}_{'air_time': (1000.0, None), 'dep_delay': (1500.0, None)};21.54636224600108
+['flights']year_date,arr_delay*dep_delay,year_dateorigin_state_abr='CA',dest_state_abr='HI'['year_date']_{'arr_delay*dep_delay': 'SUM'}_{'year_date': (1994.0, 2017.0)}_{'arr_delay*dep_delay': 'SUM'}_{'year_date': (1994.0, 2017.0)};0.9572697500007052
+['flights']dest_state_abr,taxi_out-taxi_in,year_dateunique_carrier='UA',origin='ATL'['dest_state_abr']_{'taxi_out-taxi_in': 'SUM'}_{'year_date': (1994.0, 2017.0)}_{'taxi_out-taxi_in': 'SUM'}_{'year_date': (1994.0, 2017.0)};8.892662645997916

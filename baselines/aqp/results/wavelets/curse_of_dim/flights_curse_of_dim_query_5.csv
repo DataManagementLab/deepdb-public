@@ -1,0 +1,11 @@
+approach,query_no,latency,average_relative_error,bin_completeness,total_bins,query,sample_percentage,no_dim,max_num_coefficients,max_samples,upsampling
+ApproachType.WAVELET,5,2.7412025816738605,54.24677918482098,100.0,22,"SELECT year_date, SUM(distance) FROM flights WHERE unique_carrier='9E' GROUP BY year_date;",1,3,30000,1000000,1000
+ApproachType.WAVELET,5,3.14748827368021,113.95665141908809,100.0,22,"SELECT year_date, SUM(distance) FROM flights WHERE unique_carrier='9E' GROUP BY year_date;",1,4,30000,1000000,1000
+ApproachType.WAVELET,5,3.4305828753858805,1228.101763914998,100.0,22,"SELECT year_date, SUM(distance) FROM flights WHERE unique_carrier='9E' GROUP BY year_date;",1,5,30000,1000000,1000
+ApproachType.WAVELET,5,2.6238848939538,1393.1602601951872,100.0,22,"SELECT year_date, SUM(distance) FROM flights WHERE unique_carrier='9E' GROUP BY year_date;",1,6,30000,1000000,1000
+ApproachType.WAVELET,5,3.3822560478001833,1408.387703663926,100.0,22,"SELECT year_date, SUM(distance) FROM flights WHERE unique_carrier='9E' GROUP BY year_date;",1,7,30000,1000000,1000
+ApproachType.WAVELET,5,3.1458696965128183,1408.3359986150758,100.0,22,"SELECT year_date, SUM(distance) FROM flights WHERE unique_carrier='9E' GROUP BY year_date;",1,8,30000,1000000,1000
+ApproachType.WAVELET,5,3.4086041636765003,1408.387703663926,100.0,22,"SELECT year_date, SUM(distance) FROM flights WHERE unique_carrier='9E' GROUP BY year_date;",1,9,30000,1000000,1000
+ApproachType.WAVELET,5,4.080187484622002,1408.387703663926,100.0,22,"SELECT year_date, SUM(distance) FROM flights WHERE unique_carrier='9E' GROUP BY year_date;",1,10,30000,1000000,1000
+ApproachType.WAVELET,5,4.329493954777718,1408.387703663926,100.0,22,"SELECT year_date, SUM(distance) FROM flights WHERE unique_carrier='9E' GROUP BY year_date;",1,11,30000,1000000,1000
+ApproachType.WAVELET,5,4.131172491237521,1408.387703663926,100.0,22,"SELECT year_date, SUM(distance) FROM flights WHERE unique_carrier='9E' GROUP BY year_date;",1,12,30000,1000000,1000

@@ -1,0 +1,10 @@
+Query ID;Time (s)
+['lineorder']lo_revenue,lo_shipmode,lo_extendedprice['lo_shipmode']_{'lo_revenue': 'SUM'}_{'lo_extendedprice': (743970, 8625062)};4.714518452998163
+['lineorder', 'customer']c_region,lo_extendedprice,lo_tax['c_region']_{'lo_extendedprice': 'SUM'}_{'lo_tax': (2, 2)};0.143319998998777
+['lineorder', 'customer']lo_tax,c_nation,lo_quantity['c_nation']_{'lo_tax': 'SUM'}_{'lo_quantity': (2, 17)};1.5472672719988623
+['lineorder', 'part']p_size,p_category,lo_discount['p_category']_{'p_size': 'SUM'}_{'lo_discount': (1, 5)};1.9839163780015951
+['lineorder', '"Date"']lo_quantity,d_year,lo_extendedprice['d_year']_{'lo_quantity': 'SUM'}_{'lo_extendedprice': (8110921, 9854622)};0.2940985980021651
+['lineorder', '"Date"']lo_revenue,d_dayofweek,d_year['d_dayofweek']_{'lo_revenue': 'SUM'}_{'d_year': (1992, 1994)};0.4155992989981314
+['lineorder', '"Date"']lo_tax,d_month,d_year['d_month']_{'lo_tax': 'SUM'}_{'d_year': (1992, 1996)};0.8628511460010486
+['lineorder', '"Date"']lo_revenue,d_holidayfl,d_year['d_holidayfl']_{'lo_revenue': 'SUM'}_{'d_year': (1996, 1996)};0.6263151570019545
+['lineorder', '"Date"']lo_revenue,d_weekdayfl,d_year['d_weekdayfl']_{'lo_revenue': 'SUM'}_{'d_year': (1993, 1993)};0.08346350300053018

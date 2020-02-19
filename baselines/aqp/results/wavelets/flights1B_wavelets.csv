@@ -1,0 +1,13 @@
+approach,query_no,latency,average_relative_error,bin_completeness,total_bins,query,sample_percentage
+ApproachType.WAVELET,0,0,inf,0,1,SELECT AVG(dep_delay) FROM flights WHERE origin='ATL';,1
+ApproachType.WAVELET,1,0.4188319999957457,5.601393320502513,100,1,SELECT AVG(distance) FROM flights WHERE unique_carrier='TW';,1
+ApproachType.WAVELET,2,0.4188319999957457,inf,0,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE origin_state_abr='LA' GROUP BY unique_carrier;",1
+ApproachType.WAVELET,3,0.4188319999957457,inf,0,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE origin_state_abr='LA' AND  dest_state_abr='CA' GROUP BY unique_carrier;",1
+ApproachType.WAVELET,4,0.4188319999957457,inf,0,22,"SELECT year_date, COUNT(*) FROM flights WHERE origin_state_abr='LA' AND dest='JFK' GROUP BY year_date;",1
+ApproachType.WAVELET,5,0.4188319999957457,inf,0,22,"SELECT year_date, SUM(distance) FROM flights WHERE unique_carrier='9E' GROUP BY year_date;",1
+ApproachType.WAVELET,6,0.4188319999957457,inf,0,53,"SELECT origin_state_abr, SUM(air_time) FROM flights WHERE dest='HPN' GROUP BY origin_state_abr;",1
+ApproachType.WAVELET,7,0.4188319999957457,inf,0,26,"SELECT unique_carrier, AVG(dep_delay) FROM flights WHERE year_date=2005 AND origin='PHX' GROUP BY unique_carrier;",1
+ApproachType.WAVELET,8,0.4188319999957457,inf,0,53,"SELECT dest_state_abr, COUNT(*) FROM flights WHERE distance>2500 GROUP BY dest_state_abr;",1
+ApproachType.WAVELET,9,0.4188319999957457,inf,0,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE air_time>1000 AND dep_delay>1500 GROUP BY unique_carrier;",1
+ApproachType.WAVELET,10,0.4188319999957457,inf,0,22,"SELECT year_date, SUM(arr_delay*dep_delay) FROM flights WHERE origin_state_abr = 'CA' AND dest_state_abr = 'HI' GROUP BY year_date;",1
+ApproachType.WAVELET,11,0.4188319999957457,inf,0,53,"SELECT dest_state_abr, SUM(taxi_out)-SUM(taxi_in) FROM flights WHERE unique_carrier = 'UA' AND origin = 'ATL' GROUP BY dest_state_abr;",1

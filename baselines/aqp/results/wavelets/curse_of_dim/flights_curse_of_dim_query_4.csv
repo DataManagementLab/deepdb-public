@@ -1,0 +1,11 @@
+approach,query_no,latency,average_relative_error,bin_completeness,total_bins,query,sample_percentage,no_dim,max_num_coefficients,max_samples,upsampling
+ApproachType.WAVELET,4,2.6528471279889345,29.908795652309237,100.0,22,"SELECT year_date, COUNT(*) FROM flights WHERE origin_state_abr='LA' AND dest='JFK' GROUP BY year_date;",1,3,30000,1000000,1000
+ApproachType.WAVELET,4,2.9832985643297434,85.95980120050912,100.0,22,"SELECT year_date, COUNT(*) FROM flights WHERE origin_state_abr='LA' AND dest='JFK' GROUP BY year_date;",1,4,30000,1000000,1000
+ApproachType.WAVELET,4,3.2438594717532396,81.84355819405428,100.0,22,"SELECT year_date, COUNT(*) FROM flights WHERE origin_state_abr='LA' AND dest='JFK' GROUP BY year_date;",1,5,30000,1000000,1000
+ApproachType.WAVELET,4,3.2867809012532234,85.2588572651994,100.0,22,"SELECT year_date, COUNT(*) FROM flights WHERE origin_state_abr='LA' AND dest='JFK' GROUP BY year_date;",1,6,30000,1000000,1000
+ApproachType.WAVELET,4,3.4152409192174673,85.2588572651994,100.0,22,"SELECT year_date, COUNT(*) FROM flights WHERE origin_state_abr='LA' AND dest='JFK' GROUP BY year_date;",1,7,30000,1000000,1000
+ApproachType.WAVELET,4,2.8343787398189306,85.2588572651994,100.0,22,"SELECT year_date, COUNT(*) FROM flights WHERE origin_state_abr='LA' AND dest='JFK' GROUP BY year_date;",1,8,30000,1000000,1000
+ApproachType.WAVELET,4,3.5782104898244143,85.2588572651994,100.0,22,"SELECT year_date, COUNT(*) FROM flights WHERE origin_state_abr='LA' AND dest='JFK' GROUP BY year_date;",1,9,30000,1000000,1000
+ApproachType.WAVELET,4,3.5641903560608625,85.2588572651994,100.0,22,"SELECT year_date, COUNT(*) FROM flights WHERE origin_state_abr='LA' AND dest='JFK' GROUP BY year_date;",1,10,30000,1000000,1000
+ApproachType.WAVELET,4,4.274050315842032,85.2588572651994,100.0,22,"SELECT year_date, COUNT(*) FROM flights WHERE origin_state_abr='LA' AND dest='JFK' GROUP BY year_date;",1,11,30000,1000000,1000
+ApproachType.WAVELET,4,4.5012351125478745,85.2588572651994,100.0,22,"SELECT year_date, COUNT(*) FROM flights WHERE origin_state_abr='LA' AND dest='JFK' GROUP BY year_date;",1,12,30000,1000000,1000

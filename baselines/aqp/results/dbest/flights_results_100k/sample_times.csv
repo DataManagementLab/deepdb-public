@@ -1,0 +1,13 @@
+query; sampling time; tuples sampled
+(['flights'], ['dep_delay'], [], {'dep_delay': 'AVG'}, "origin='ATL'", {'year_date': (1994.0, 2017.0)});1.2734125639981357;113338
+(['flights'], ['distance'], [], {'distance': 'AVG'}, "unique_carrier='TW'", {'year_date': (1994.0, 2017.0)});3.3671582940005464;110178
+(['flights'], ['unique_carrier', 'dep_delay'], ['unique_carrier'], {'dep_delay': 'COUNT'}, "origin_state_abr='LA'", {'year_date': (1994.0, 2017.0)});4.380608681000012;107686
+(['flights'], ['unique_carrier', 'dep_delay'], ['unique_carrier'], {'dep_delay': 'COUNT'}, "origin_state_abr='LA',dest_state_abr='CA'", {'year_date': (1994.0, 2017.0)});31.15084215599927;100799
+(['flights'], ['year_date', 'dep_delay'], ['year_date'], {'dep_delay': 'COUNT'}, "origin_state_abr='LA',dest='JFK'", {'year_date': (1994.0, 2017.0)});263.38538704599705;100064
+(['flights'], ['year_date', 'distance'], ['year_date'], {'distance': 'SUM'}, "unique_carrier='9E'", {'year_date': (1994.0, 2017.0)});4.632528726000601;108120
+(['flights'], ['origin_state_abr', 'air_time'], ['origin_state_abr'], {'air_time': 'SUM'}, "dest='HPN'", {'year_date': (1994.0, 2017.0)});32.40719927399914;101052
+(['flights'], ['unique_carrier', 'dep_delay'], ['unique_carrier'], {'dep_delay': 'AVG'}, "origin='PHX'", {'year_date': (2005.0, 2005.0)});2.1261125640012324;115998
+(['flights'], ['dest_state_abr', 'dep_delay'], ['dest_state_abr'], {'dep_delay': 'COUNT'}, '', {'distance': (2500.0, None)});6.215121206998447;1011562
+(['flights'], ['unique_carrier', 'dep_delay'], ['unique_carrier'], {'dep_delay': 'COUNT'}, '', {'air_time': (1000.0, None), 'dep_delay': (1500.0, None)});7.73888833899764;984457
+(['flights'], ['year_date', 'arr_delay*dep_delay'], ['year_date'], {'arr_delay*dep_delay': 'SUM'}, "origin_state_abr='CA',dest_state_abr='HI'", {'year_date': (1994.0, 2017.0)});28.904473375001544;100068
+(['flights'], ['dest_state_abr', 'taxi_out-taxi_in'], ['dest_state_abr'], {'taxi_out-taxi_in': 'SUM'}, "unique_carrier='UA',origin='ATL'", {'year_date': (1994.0, 2017.0)});8.177347436001583;104592

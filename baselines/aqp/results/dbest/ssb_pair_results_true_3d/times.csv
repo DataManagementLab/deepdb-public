@@ -1,0 +1,10 @@
+Query;Time(s)
+SELECT SUM(lo_revenue),lo_shipmode FROM lineorder WHERE lo_extendedprice between 6246149 and 7655367 AND lo_ordtotalprice between 7744860 and 16001006 AND lo_discount between 1 and 3 GROUP BY lo_shipmode;3.5413621249972493
+SELECT c_region,SUM(lo_extendedprice) FROM lineorder,customer WHERE lo_custkey = c_customerkey AND lo_tax between 1 and 8 AND lo_discount between 6 and 10 AND lo_quantity between 28 and 29 GROUP BY c_region;3.594471126998542
+SELECT SUM(lo_tax),c_nation FROM lineorder,customer WHERE lo_custkey = c_customerkey AND lo_quantity between 11 and 42 AND lo_discount between 0 and 3 AND lo_tax between 0 and 2 GROUP BY c_nation;4.324810027999774
+SELECT SUM(p_size),p_category FROM lineorder,part WHERE lo_partkey = p_partkey AND lo_discount between 8 and 8 AND lo_tax between 1 and 2 AND lo_revenue between 4820692 and 7377914 GROUP BY p_category;2.877724104000663
+SELECT SUM(lo_quantity),d_year FROM lineorder,"Date" WHERE lo_orderdatekey = d_datekey AND lo_extendedprice between 1924642 and 4514216 AND lo_revenue between 2805467 and 5836897 AND d_year between 1995 and 1997 GROUP BY d_year;3.1671048999996856
+SELECT SUM(lo_revenue),d_dayofweek FROM lineorder,"Date" WHERE lo_orderdatekey = d_datekey AND d_year between 1992 and 1996 AND lo_quantity between 8 and 36 AND lo_discount between 2 and 10 GROUP BY d_dayofweek;3.7103733800031478
+SELECT SUM(lo_tax),d_month FROM lineorder,"Date" WHERE lo_orderdatekey = d_datekey AND d_year between 1993 and 1995 AND lo_discount between 0 and 0 AND d_monthnuminyear between 5 and 10 GROUP BY d_month;2.549542538999958
+SELECT SUM(lo_revenue),d_holidayfl FROM lineorder,"Date" WHERE lo_orderdatekey = d_datekey AND d_year between 1995 and 1996 AND d_monthnuminyear between 8 and 10 GROUP BY d_holidayfl;2.376283785997657
+SELECT SUM(lo_revenue),d_weekdayfl FROM lineorder,"Date" WHERE lo_orderdatekey = d_datekey AND d_year between 1992 and 1994 AND lo_tax between 7 and 7 AND d_daynuminyear between 2 and 34 GROUP BY d_weekdayfl;2.087544826001249

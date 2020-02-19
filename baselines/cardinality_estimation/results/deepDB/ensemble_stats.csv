@@ -1,0 +1,96 @@
+filename,learn_time,full_sample_size,min_instances_slice,rdc_threshold,no_joins,no_tables,tables
+ensemble_join_3_budget_0_1000.pkl,48.422447699,1000,10.0,0.3,1,2,title - cast_info
+ensemble_join_3_budget_0_1000.pkl,35.828167498,1000,10.0,0.3,1,2,movie_companies - title
+ensemble_join_3_budget_0_1000.pkl,28.695616591999993,1000,10.0,0.3,1,2,movie_info_idx - title
+ensemble_join_3_budget_0_1000.pkl,42.63858823800001,1000,10.0,0.3,1,2,movie_keyword - title
+ensemble_join_3_budget_0_1000.pkl,31.57391329799998,1000,10.0,0.3,1,2,movie_info - title
+ensemble_join_3_budget_0_10000.pkl,75.048859489,10000,100.0,0.3,1,2,title - cast_info
+ensemble_join_3_budget_0_10000.pkl,58.058777687,10000,100.0,0.3,1,2,movie_info_idx - title
+ensemble_join_3_budget_0_10000.pkl,75.66824104899999,10000,100.0,0.3,1,2,movie_keyword - title
+ensemble_join_3_budget_0_10000.pkl,76.23307663099999,10000,100.0,0.3,1,2,movie_companies - title
+ensemble_join_3_budget_0_10000.pkl,60.20321305599998,10000,100.0,0.3,1,2,movie_info - title
+ensemble_join_3_budget_0_100000.pkl,171.29181524999998,100000,1000.0,0.3,1,2,movie_keyword - title
+ensemble_join_3_budget_0_100000.pkl,126.40944876199998,100000,1000.0,0.3,1,2,movie_companies - title
+ensemble_join_3_budget_0_100000.pkl,144.42701046000002,100000,1000.0,0.3,1,2,movie_info - title
+ensemble_join_3_budget_0_100000.pkl,114.95345839000004,100000,1000.0,0.3,1,2,movie_info_idx - title
+ensemble_join_3_budget_0_100000.pkl,133.36791302999995,100000,1000.0,0.3,1,2,title - cast_info
+ensemble_join_3_budget_0_1000000.pkl,302.52701082,1000000,10000.0,0.3,1,2,movie_companies - title
+ensemble_join_3_budget_0_1000000.pkl,188.43186829099994,1000000,10000.0,0.3,1,2,movie_info_idx - title
+ensemble_join_3_budget_0_1000000.pkl,272.567083549,1000000,10000.0,0.3,1,2,title - cast_info
+ensemble_join_3_budget_0_1000000.pkl,304.453236575,1000000,10000.0,0.3,1,2,movie_keyword - title
+ensemble_join_3_budget_0_1000000.pkl,264.50638637600014,1000000,10000.0,0.3,1,2,movie_info - title
+ensemble_join_3_budget_0_10000000.pkl,507.60094802199995,6575448,65754.48,0.3,1,2,movie_keyword - title
+ensemble_join_3_budget_0_10000000.pkl,532.3223892500001,10000000,100000.0,0.3,1,2,title - cast_info
+ensemble_join_3_budget_0_10000000.pkl,482.913315235,10000000,100000.0,0.3,1,2,movie_info - title
+ensemble_join_3_budget_0_10000000.pkl,254.85387801399997,3448422,34484.22,0.3,1,2,movie_info_idx - title
+ensemble_join_3_budget_0_10000000.pkl,454.6389413940001,4050205,40502.05,0.3,1,2,movie_companies - title
+ensemble_join_3_budget_10_10000000.pkl,353.104558496,1000000,10000.0,0.3,3,4,movie_info_idx - movie_info - movie_companies - title
+ensemble_join_3_budget_10_10000000.pkl,324.358979249,1000000,10000.0,0.3,2,3,movie_keyword - movie_companies - title
+ensemble_join_3_budget_10_10000000.pkl,377.28165544600006,1000000,10000.0,0.3,2,3,movie_info_idx - movie_keyword - title
+ensemble_join_3_budget_10_10000000.pkl,398.133356432,1000000,10000.0,0.3,2,3,movie_info_idx - movie_companies - title
+ensemble_join_3_budget_10_10000000.pkl,347.2916713139998,1000000,10000.0,0.3,2,3,movie_info - movie_companies - title
+ensemble_join_3_budget_10_10000000.pkl,413.58133986600023,1000000,10000.0,0.3,2,3,movie_keyword - movie_info - title
+ensemble_join_3_budget_10_10000000.pkl,464.09294596799964,4050205,40502.05,0.3,1,2,movie_companies - title
+ensemble_join_3_budget_10_10000000.pkl,488.92308127299975,6575448,65754.48,0.3,1,2,movie_keyword - title
+ensemble_join_3_budget_10_10000000.pkl,811.7077375210006,10000000,100000.0,0.3,1,2,title - cast_info
+ensemble_join_3_budget_10_10000000.pkl,484.5892126350009,10000000,100000.0,0.3,1,2,movie_info - title
+ensemble_join_3_budget_10_10000000.pkl,233.39541040400036,3448422,34484.22,0.3,1,2,movie_info_idx - title
+ensemble_join_3_budget_15_10000000.pkl,566.8922954500013,1000000,10000.0,0.3,3,4,movie_info_idx - movie_keyword - movie_companies - title
+ensemble_join_3_budget_15_10000000.pkl,727.3321921729985,1000000,10000.0,0.3,3,4,movie_info_idx - movie_info - movie_companies - title
+ensemble_join_3_budget_15_10000000.pkl,784.4457755109979,1000000,10000.0,0.3,2,3,movie_info_idx - movie_companies - title
+ensemble_join_3_budget_15_10000000.pkl,534.5212478799986,1000000,10000.0,0.3,2,3,movie_info_idx - movie_info - title
+ensemble_join_3_budget_15_10000000.pkl,671.4660264010017,1000000,10000.0,0.3,2,3,movie_keyword - movie_companies - title
+ensemble_join_3_budget_15_10000000.pkl,566.5538514949985,1000000,10000.0,0.3,2,3,movie_keyword - movie_info - title
+ensemble_join_3_budget_15_10000000.pkl,447.4659696810013,1000000,10000.0,0.3,2,3,movie_keyword - title - cast_info
+ensemble_join_3_budget_15_10000000.pkl,676.3965151969969,1000000,10000.0,0.3,2,3,movie_info - movie_companies - title
+ensemble_join_3_budget_15_10000000.pkl,389.3122633610001,3448422,34484.22,0.3,1,2,movie_info_idx - title
+ensemble_join_3_budget_15_10000000.pkl,682.9391792299975,4050205,40502.05,0.3,1,2,movie_companies - title
+ensemble_join_3_budget_15_10000000.pkl,796.318428063998,6575448,65754.48,0.3,1,2,movie_keyword - title
+ensemble_join_3_budget_15_10000000.pkl,1361.4302810830013,10000000,100000.0,0.3,1,2,title - cast_info
+ensemble_join_3_budget_15_10000000.pkl,754.5522648100014,10000000,100000.0,0.3,1,2,movie_info - title
+ensemble_join_3_budget_20_10000000.pkl,420.6099331609994,1000000,10000.0,0.3,3,4,movie_keyword - movie_info - movie_companies - title
+ensemble_join_3_budget_20_10000000.pkl,249.3127640010007,1000000,10000.0,0.3,3,4,movie_info_idx - movie_keyword - movie_info - title
+ensemble_join_3_budget_20_10000000.pkl,644.1161103510003,1000000,10000.0,0.3,3,4,movie_info_idx - movie_info - movie_companies - title
+ensemble_join_3_budget_20_10000000.pkl,1110.7321973859998,1000000,10000.0,0.3,3,4,movie_info_idx - movie_info - title - cast_info
+ensemble_join_3_budget_20_10000000.pkl,775.1466145509994,1000000,10000.0,0.3,2,3,movie_info_idx - movie_keyword - title
+ensemble_join_3_budget_20_10000000.pkl,1122.270212243,1000000,10000.0,0.3,2,3,movie_info - title - cast_info
+ensemble_join_3_budget_20_10000000.pkl,613.066672152001,1000000,10000.0,0.3,2,3,movie_info_idx - movie_info - title
+ensemble_join_3_budget_20_10000000.pkl,604.9336920249989,1000000,10000.0,0.3,2,3,movie_keyword - movie_info - title
+ensemble_join_3_budget_20_10000000.pkl,745.506474576001,1000000,10000.0,0.3,2,3,movie_info_idx - movie_companies - title
+ensemble_join_3_budget_20_10000000.pkl,712.7353633910006,1000000,10000.0,0.3,2,3,movie_info - movie_companies - title
+ensemble_join_3_budget_20_10000000.pkl,697.8081936620001,1000000,10000.0,0.3,2,3,movie_keyword - movie_companies - title
+ensemble_join_3_budget_20_10000000.pkl,403.48743474100047,3448422,34484.22,0.3,1,2,movie_info_idx - title
+ensemble_join_3_budget_20_10000000.pkl,686.974636895,4050205,40502.05,0.3,1,2,movie_companies - title
+ensemble_join_3_budget_20_10000000.pkl,1310.5773278010001,10000000,100000.0,0.3,1,2,title - cast_info
+ensemble_join_3_budget_20_10000000.pkl,724.6668288690016,10000000,100000.0,0.3,1,2,movie_info - title
+ensemble_join_3_budget_20_10000000.pkl,860.809658315,6575448,65754.48,0.3,1,2,movie_keyword - title
+ensemble_join_3_budget_5_10000000.pkl,347.04109313,1000000,10000.0,0.3,2,3,movie_keyword - movie_companies - title
+ensemble_join_3_budget_5_10000000.pkl,390.73302291199997,1000000,10000.0,0.3,2,3,movie_info_idx - movie_companies - title
+ensemble_join_3_budget_5_10000000.pkl,397.651046901,1000000,10000.0,0.3,2,3,movie_companies - title - movie_info
+ensemble_join_3_budget_5_10000000.pkl,240.35991123199983,3448422,34484.22,0.3,1,2,movie_info_idx - title
+ensemble_join_3_budget_5_10000000.pkl,470.822257909,10000000,100000.0,0.3,1,2,movie_info - title
+ensemble_join_3_budget_5_10000000.pkl,407.32519702499985,4050205,40502.05,0.3,1,2,movie_companies - title
+ensemble_join_3_budget_5_10000000.pkl,476.44258121999974,6575448,65754.48,0.3,1,2,movie_keyword - title
+ensemble_join_3_budget_5_10000000.pkl,476.96929440199983,10000000,100000.0,0.3,1,2,title - cast_info
+ensemble_join_4_budget_20_10000000.pkl,130.40781033599978,1000000,10000.0,0.3,4,5,movie_info - movie_companies - movie_info_idx - movie_keyword - title
+ensemble_join_4_budget_20_10000000.pkl,501.38927503800005,1000000,10000.0,0.3,3,4,title - movie_companies - movie_info - cast_info
+ensemble_join_4_budget_20_10000000.pkl,496.32589698100037,1000000,10000.0,0.3,3,4,movie_info_idx - movie_keyword - movie_companies - title
+ensemble_join_4_budget_20_10000000.pkl,749.146188226001,1000000,10000.0,0.3,3,4,movie_info_idx - movie_companies - title - movie_info
+ensemble_join_4_budget_20_10000000.pkl,764.9062841319992,1000000,10000.0,0.3,2,3,movie_companies - title - movie_info
+ensemble_join_4_budget_20_10000000.pkl,691.299661527999,1000000,10000.0,0.3,2,3,movie_keyword - movie_companies - title
+ensemble_join_4_budget_20_10000000.pkl,751.0821426290004,1000000,10000.0,0.3,2,3,movie_info_idx - movie_keyword - title
+ensemble_join_4_budget_20_10000000.pkl,761.0305885729995,1000000,10000.0,0.3,2,3,movie_info_idx - movie_companies - title
+ensemble_join_4_budget_20_10000000.pkl,540.4720720690002,1000000,10000.0,0.3,2,3,movie_info_idx - title - cast_info
+ensemble_join_4_budget_20_10000000.pkl,581.9019859060008,1000000,10000.0,0.3,2,3,movie_info_idx - movie_info - title
+ensemble_join_4_budget_20_10000000.pkl,732.7334448030015,6575448,65754.48,0.3,1,2,movie_keyword - title
+ensemble_join_4_budget_20_10000000.pkl,704.6309229309991,4050205,40502.05,0.3,1,2,movie_companies - title
+ensemble_join_4_budget_20_10000000.pkl,406.1736257390003,3448422,34484.22,0.3,1,2,movie_info_idx - title
+ensemble_join_4_budget_20_10000000.pkl,736.3293130090005,10000000,100000.0,0.3,1,2,movie_info - title
+ensemble_join_4_budget_20_10000000.pkl,720.1013251969998,10000000,100000.0,0.3,1,2,title - cast_info
+ensemble_single_imdb-light_10000000.pkl,174.399226243,2528312,25283.12,0.3,0,1,title
+ensemble_single_imdb-light_10000000.pkl,0.10127419100001589,1380035,13800.35,0.3,0,1,movie_info_idx
+ensemble_single_imdb-light_10000000.pkl,0.7249753640000165,10000000,100000.0,0.3,0,1,movie_info
+ensemble_single_imdb-light_10000000.pkl,106.86291254900001,10000000,100000.0,0.3,0,1,cast_info
+ensemble_single_imdb-light_10000000.pkl,0.4553190149999864,4523930,45239.3,0.3,0,1,movie_keyword
+ensemble_single_imdb-light_10000000.pkl,6.502859951000005,2609129,26091.29,0.3,0,1,movie_companies
+generate_hdf,657,0,0,0,0,0,

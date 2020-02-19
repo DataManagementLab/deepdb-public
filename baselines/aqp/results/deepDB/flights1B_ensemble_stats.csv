@@ -1,0 +1,3 @@
+filename,learn_time,full_sample_size,min_instances_slice,rdc_threshold,no_joins,no_tables,tables
+ensemble_single_flights1B_10000000.pkl,143.9273961,9999751,99997.51000000001,0.3,0,1,flights
+generate_hdf,58,0,0,0,0,0,

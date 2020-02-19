@@ -1,0 +1,12 @@
+approach,query_no,latency,average_relative_error,bin_completeness,total_bins,query,sample_percentage,no_dim,max_num_coefficients,max_samples,upsampling
+ApproachType.WAVELET,2,0.06431886740028858,4.690388170055453,96.15384615384616,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE origin_state_abr='LA' GROUP BY unique_carrier;",1,2,30000,1000000,1000
+ApproachType.WAVELET,2,2.169578978791833,4.690388170055453,96.15384615384616,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE origin_state_abr='LA' GROUP BY unique_carrier;",1,3,30000,1000000,1000
+ApproachType.WAVELET,2,3.109914904460311,28.632829102956727,96.15384615384616,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE origin_state_abr='LA' GROUP BY unique_carrier;",1,4,30000,1000000,1000
+ApproachType.WAVELET,2,3.199226301163435,74.16622476338486,96.15384615384616,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE origin_state_abr='LA' GROUP BY unique_carrier;",1,5,30000,1000000,1000
+ApproachType.WAVELET,2,3.402397621423006,87.442864627914,96.15384615384616,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE origin_state_abr='LA' GROUP BY unique_carrier;",1,6,30000,1000000,1000
+ApproachType.WAVELET,2,2.8808594550937414,127.87916760005973,96.15384615384616,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE origin_state_abr='LA' GROUP BY unique_carrier;",1,7,30000,1000000,1000
+ApproachType.WAVELET,2,2.8432871475815773,127.87916760005973,96.15384615384616,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE origin_state_abr='LA' GROUP BY unique_carrier;",1,8,30000,1000000,1000
+ApproachType.WAVELET,2,3.582238594070077,127.87916760005973,96.15384615384616,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE origin_state_abr='LA' GROUP BY unique_carrier;",1,9,30000,1000000,1000
+ApproachType.WAVELET,2,3.529406376183033,127.87916760005973,96.15384615384616,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE origin_state_abr='LA' GROUP BY unique_carrier;",1,10,30000,1000000,1000
+ApproachType.WAVELET,2,4.239580852910876,127.87916760005973,96.15384615384616,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE origin_state_abr='LA' GROUP BY unique_carrier;",1,11,30000,1000000,1000
+ApproachType.WAVELET,2,4.963252251967788,127.87916760005973,96.15384615384616,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE origin_state_abr='LA' GROUP BY unique_carrier;",1,12,30000,1000000,1000

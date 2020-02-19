@@ -1,0 +1,13 @@
+approach,query_no,latency,average_relative_error,bin_completeness,total_bins,query,sample_percentage
+ApproachType.MODEL_BASED,0,0.00350399999297224,0.0008392452772919462,100,1,SELECT AVG(dep_delay) FROM flights WHERE origin='ATL';,100
+ApproachType.MODEL_BASED,1,0.0011955999943893403,0.14532539443461376,100,1,SELECT AVG(distance) FROM flights WHERE unique_carrier='TW';,100
+ApproachType.MODEL_BASED,2,0.002809300000080839,0.462341996259963,100.0,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE origin_state_abr='LA' GROUP BY unique_carrier;",100
+ApproachType.MODEL_BASED,3,0.01027199998497963,0.5809893788939434,100.0,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE origin_state_abr='LA' AND  dest_state_abr='CA' GROUP BY unique_carrier;",100
+ApproachType.MODEL_BASED,4,0.0034779999987222254,0.7740626619610522,100.0,22,"SELECT year_date, COUNT(*) FROM flights WHERE origin_state_abr='LA' AND dest='JFK' GROUP BY year_date;",100
+ApproachType.MODEL_BASED,5,0.006339099985780194,0.39255325350940695,100.0,22,"SELECT year_date, SUM(distance) FROM flights WHERE unique_carrier='9E' GROUP BY year_date;",100
+ApproachType.MODEL_BASED,6,0.010360000014770776,1.8776182759304632,100.0,53,"SELECT origin_state_abr, SUM(air_time) FROM flights WHERE dest='HPN' GROUP BY origin_state_abr;",100
+ApproachType.MODEL_BASED,7,0.00846880002063699,0.01639363751321276,100.0,26,"SELECT unique_carrier, AVG(dep_delay) FROM flights WHERE year_date=2005 AND origin='PHX' GROUP BY unique_carrier;",100
+ApproachType.MODEL_BASED,8,0.18993039999622852,1.2385427309051686,100.0,53,"SELECT dest_state_abr, COUNT(*) FROM flights WHERE distance>2500 GROUP BY dest_state_abr;",100
+ApproachType.MODEL_BASED,9,0.3350559000100475,0.7483959468459904,100.0,26,"SELECT unique_carrier, COUNT(*) FROM flights WHERE air_time>1000 AND dep_delay>1500 GROUP BY unique_carrier;",100
+ApproachType.MODEL_BASED,10,0.04693109999061562,0.26546667446194605,100.0,22,"SELECT year_date, SUM(arr_delay*dep_delay) FROM flights WHERE origin_state_abr = 'CA' AND dest_state_abr = 'HI' GROUP BY year_date;",100
+ApproachType.MODEL_BASED,11,0.010243099997751415,2.633843175806719,100.0,53,"SELECT dest_state_abr, SUM(taxi_out)-SUM(taxi_in) FROM flights WHERE unique_carrier = 'UA' AND origin = 'ATL' GROUP BY dest_state_abr;",100

@@ -1,0 +1,11 @@
+filename,learn_time,full_sample_size,min_instances_slice,rdc_threshold,no_joins,no_tables,tables
+ensemble_relationships_ssb-500gb_10000000.pkl,218.237365645,10000000,100000.0,0.3,1,2,lineorder - customer
+ensemble_relationships_ssb-500gb_10000000.pkl,233.280829132,9990274,99902.74,0.3,1,2,part - lineorder
+ensemble_relationships_ssb-500gb_10000000.pkl,193.36713615500003,9988939,99889.39,0.3,1,2,supplier - lineorder
+ensemble_relationships_ssb-500gb_10000000.pkl,344.6339711239999,9988939,99889.39,0.3,1,2,lineorder - dwdate
+ensemble_single_ssb-500gb_10000000.pkl,211.90754948699998,9988938,99889.38,0.3,0,1,lineorder
+ensemble_single_ssb-500gb_10000000.pkl,18.704350102000006,2556,25.560000000000002,0.3,0,1,dwdate
+ensemble_single_ssb-500gb_10000000.pkl,5.245464607000002,10000000,100000.0,0.3,0,1,customer
+ensemble_single_ssb-500gb_10000000.pkl,18.654953886000015,1800000,18000.0,0.3,0,1,part
+ensemble_single_ssb-500gb_10000000.pkl,1.5048724860000107,1000000,10000.0,0.3,0,1,supplier
+generate_hdf,736,0,0,0,0,0,

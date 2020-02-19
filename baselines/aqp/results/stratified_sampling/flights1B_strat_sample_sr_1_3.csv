@@ -1,0 +1,13 @@
+approach,query_no,latency,average_relative_error,bin_completeness,total_bins,query,sample_percentage
+ApproachType.STRATIFIED_SAMPLING,0,1.342582477023825,0.02133141960797455,100,1,select avg(dep_delay) from strat_sample_0 where origin='ATL';,1.0
+ApproachType.STRATIFIED_SAMPLING,1,1.6397637201007456,0.11802471663088848,100,1,select avg(distance) from strat_sample_1 where unique_carrier='TW';,1.0
+ApproachType.STRATIFIED_SAMPLING,2,1.4771454610163346,0.2353620768158466,100.0,26,"select unique_carrier, avg(upsample_rate) * count(*) from strat_sample_2 where origin_state_abr='LA' GROUP BY unique_carrier;",1.0
+ApproachType.STRATIFIED_SAMPLING,3,1.5599431480513886,0.2402095004983256,100.0,26,"select unique_carrier, avg(upsample_rate) * count(*) from strat_sample_3 where origin_state_abr='LA' AND  dest_state_abr='CA' GROUP BY unique_carrier;",1.0
+ApproachType.STRATIFIED_SAMPLING,4,1.7813283669529483,0.3587764875506715,100.0,22,"select year_date, avg(upsample_rate) * count(*) from strat_sample_4 where origin_state_abr='LA' AND dest='JFK' GROUP BY year_date;",1.0
+ApproachType.STRATIFIED_SAMPLING,5,1.9025509910425171,0.6263561058167029,100.0,22,"select year_date, avg(upsample_rate) * sum(distance) from strat_sample_5 where unique_carrier='9E' GROUP BY year_date;",1.0
+ApproachType.STRATIFIED_SAMPLING,6,1.5942546140868217,0.6835889891013636,100.0,53,"select origin_state_abr, avg(upsample_rate) * sum(air_time) from strat_sample_6 where dest='HPN' GROUP BY origin_state_abr;",1.0
+ApproachType.STRATIFIED_SAMPLING,7,1.7418485330417752,0.27538198981119355,100.0,26,"select unique_carrier, avg(dep_delay) from strat_sample_7 where year_date=2005 AND origin='PHX' GROUP BY unique_carrier;",1.0
+ApproachType.STRATIFIED_SAMPLING,8,1.516475994954817,1.4711812820681678,100.0,53,"select dest_state_abr, avg(upsample_rate) * count(*) from strat_sample_8 where distance>2500 GROUP BY dest_state_abr;",1.0
+ApproachType.STRATIFIED_SAMPLING,9,1.9510474880225956,4.416274456641423,100.0,26,"select unique_carrier, avg(upsample_rate) * count(*) from strat_sample_9 where air_time>1000 AND dep_delay>1500 GROUP BY unique_carrier;",1.0
+ApproachType.STRATIFIED_SAMPLING,10,1.9303641460137442,0.39140685918959633,100.0,22,"select year_date, avg(upsample_rate) * sum(arr_delay*dep_delay) from strat_sample_10 where origin_state_abr = 'CA' AND dest_state_abr = 'HI' GROUP BY year_date;",1.0
+ApproachType.STRATIFIED_SAMPLING,11,2.0378184970468283,26.780012565452736,100.0,53,"select dest_state_abr, avg(upsample_rate) * sum(taxi_out)-avg(upsample_rate) * sum(taxi_in) from strat_sample_11 where unique_carrier = 'UA' AND origin = 'ATL' GROUP BY dest_state_abr;",1.0

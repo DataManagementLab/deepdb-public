@@ -1,0 +1,10 @@
+approach,query_no,latency,average_relative_error,bin_completeness,total_bins,query,sample_percentage,no_dim,max_num_coefficients,max_samples,upsampling
+ApproachType.WAVELET,7,3.2279624734073877,0.8114855734325944,92.3076923076923,26,"SELECT unique_carrier, AVG(dep_delay) FROM flights WHERE year_date=2005 AND origin='PHX' GROUP BY unique_carrier;",1,4,30000,1000000,1000
+ApproachType.WAVELET,7,3.488277891650796,21.915789293500723,96.15384615384616,26,"SELECT unique_carrier, AVG(dep_delay) FROM flights WHERE year_date=2005 AND origin='PHX' GROUP BY unique_carrier;",1,5,30000,1000000,1000
+ApproachType.WAVELET,7,3.606024758890271,26.05214173513259,96.15384615384616,26,"SELECT unique_carrier, AVG(dep_delay) FROM flights WHERE year_date=2005 AND origin='PHX' GROUP BY unique_carrier;",1,6,30000,1000000,1000
+ApproachType.WAVELET,7,3.2225995045155287,42.53862587625665,92.3076923076923,26,"SELECT unique_carrier, AVG(dep_delay) FROM flights WHERE year_date=2005 AND origin='PHX' GROUP BY unique_carrier;",1,7,30000,1000000,1000
+ApproachType.WAVELET,7,3.2274159844964743,131.61676100334995,96.15384615384616,26,"SELECT unique_carrier, AVG(dep_delay) FROM flights WHERE year_date=2005 AND origin='PHX' GROUP BY unique_carrier;",1,8,30000,1000000,1000
+ApproachType.WAVELET,7,3.743913074955344,131.6203240435323,96.15384615384616,26,"SELECT unique_carrier, AVG(dep_delay) FROM flights WHERE year_date=2005 AND origin='PHX' GROUP BY unique_carrier;",1,9,30000,1000000,1000
+ApproachType.WAVELET,7,4.1761510614305735,131.61192903058407,96.15384615384616,26,"SELECT unique_carrier, AVG(dep_delay) FROM flights WHERE year_date=2005 AND origin='PHX' GROUP BY unique_carrier;",1,10,30000,1000000,1000
+ApproachType.WAVELET,7,4.5727631486952305,131.61192903058407,96.15384615384616,26,"SELECT unique_carrier, AVG(dep_delay) FROM flights WHERE year_date=2005 AND origin='PHX' GROUP BY unique_carrier;",1,11,30000,1000000,1000
+ApproachType.WAVELET,7,4.126416468992829,131.61192903058407,96.15384615384616,26,"SELECT unique_carrier, AVG(dep_delay) FROM flights WHERE year_date=2005 AND origin='PHX' GROUP BY unique_carrier;",1,12,30000,1000000,1000

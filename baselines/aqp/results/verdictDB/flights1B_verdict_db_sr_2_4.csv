@@ -1,0 +1,13 @@
+approach,query_no,latency,average_relative_error,bin_completeness,total_bins,query,sample_percentage
+ApproachType.VERDICT_DB,0,1.2159804650000297,0.0026472504297818528,100,1,SELECT AVG(dep_delay) FROM public.flights_scrambled WHERE origin='ATL';,2.0
+ApproachType.VERDICT_DB,1,0.2846527560031973,0.13566031299378165,100,1,SELECT AVG(distance) FROM public.flights_scrambled WHERE unique_carrier='TW';,2.0
+ApproachType.VERDICT_DB,2,0.7758114129974274,2.7580416796211034,100.0,26,"SELECT unique_carrier, COUNT(*) FROM public.flights_scrambled WHERE origin_state_abr='LA' GROUP BY unique_carrier;",2.0
+ApproachType.VERDICT_DB,3,1.0014459779922618,4.480233836532529,100.0,26,"SELECT unique_carrier, COUNT(*) FROM public.flights_scrambled WHERE origin_state_abr='LA' AND  dest_state_abr='CA' GROUP BY unique_carrier;",2.0
+ApproachType.VERDICT_DB,4,1.0004226950113662,7.094526586850655,100.0,22,"SELECT year_date, COUNT(*) FROM public.flights_scrambled WHERE origin_state_abr='LA' AND dest='JFK' GROUP BY year_date;",2.0
+ApproachType.VERDICT_DB,5,0.48838164198969025,1.6415225999725274,100.0,22,"SELECT year_date, SUM(distance) FROM public.flights_scrambled WHERE unique_carrier='9E' GROUP BY year_date;",2.0
+ApproachType.VERDICT_DB,6,1.0133616180100944,9.05971399839618,96.22641509433963,53,"SELECT origin_state_abr, SUM(air_time) FROM public.flights_scrambled WHERE dest='HPN' GROUP BY origin_state_abr;",2.0
+ApproachType.VERDICT_DB,7,0.26215440400119405,0.21877365780956418,100.0,26,"SELECT unique_carrier, AVG(dep_delay) FROM public.flights_scrambled WHERE year_date=2005 AND origin='PHX' GROUP BY unique_carrier;",2.0
+ApproachType.VERDICT_DB,8,1.0935671580082271,3.7181376355596534,100.0,53,"SELECT dest_state_abr, COUNT(*) FROM public.flights_scrambled WHERE distance>2500 GROUP BY dest_state_abr;",2.0
+ApproachType.VERDICT_DB,9,1.0199899120052578,6.594513737080156,100.0,26,"SELECT unique_carrier, COUNT(*) FROM public.flights_scrambled WHERE air_time>1000 AND dep_delay>1500 GROUP BY unique_carrier;",2.0
+ApproachType.VERDICT_DB,10,0.7121672150096856,2.725316023925547,100.0,22,"SELECT year_date, SUM(arr_delay*dep_delay) FROM public.flights_scrambled WHERE origin_state_abr = 'CA' AND dest_state_abr = 'HI' GROUP BY year_date;",2.0
+ApproachType.VERDICT_DB,11,0.976192292990163,13.643274282357417,100.0,53,"SELECT dest_state_abr, SUM(taxi_out)-SUM(taxi_in) FROM public.flights_scrambled WHERE unique_carrier = 'UA' AND origin = 'ATL' GROUP BY dest_state_abr;",2.0

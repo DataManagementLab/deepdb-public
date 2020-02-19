@@ -1,0 +1,13 @@
+approach,query_no,latency,average_relative_error,bin_completeness,total_bins,query,sample_percentage
+ApproachType.TABLESAMPLE,0,1.1421593799996117,0.008573859939365408,100,1,SELECT AVG(dep_delay) FROM flights TABLESAMPLE SYSTEM(0.5) WHERE origin='ATL';,0.5
+ApproachType.TABLESAMPLE,1,1.058625545999348,0.12490271871389433,100,1,SELECT AVG(distance) FROM flights TABLESAMPLE SYSTEM(0.5) WHERE unique_carrier='TW';,0.5
+ApproachType.TABLESAMPLE,2,1.1683944000005795,3.36330603400466,100.0,26,"SELECT unique_carrier, COUNT(*) FROM flights TABLESAMPLE SYSTEM(0.5) WHERE origin_state_abr='LA' GROUP BY unique_carrier;",0.5
+ApproachType.TABLESAMPLE,3,1.1310295990006125,9.443486613082069,100.0,26,"SELECT unique_carrier, COUNT(*) FROM flights TABLESAMPLE SYSTEM(0.5) WHERE origin_state_abr='LA' AND  dest_state_abr='CA' GROUP BY unique_carrier;",0.5
+ApproachType.TABLESAMPLE,4,1.1004008899999462,16.334944863851504,100.0,22,"SELECT year_date, COUNT(*) FROM flights TABLESAMPLE SYSTEM(0.5) WHERE origin_state_abr='LA' AND dest='JFK' GROUP BY year_date;",0.5
+ApproachType.TABLESAMPLE,5,1.0459836480004014,2.512475267144439,100.0,22,"SELECT year_date, SUM(distance) FROM flights TABLESAMPLE SYSTEM(0.5) WHERE unique_carrier='9E' GROUP BY year_date;",0.5
+ApproachType.TABLESAMPLE,6,1.1453168520001782,77.61817344464484,98.11320754716981,53,"SELECT origin_state_abr, SUM(air_time) FROM flights TABLESAMPLE SYSTEM(0.5) WHERE dest='HPN' GROUP BY origin_state_abr;",0.5
+ApproachType.TABLESAMPLE,7,0.9507578980001199,0.21194131720188922,100.0,26,"SELECT unique_carrier, AVG(dep_delay) FROM flights TABLESAMPLE SYSTEM(0.5) WHERE year_date=2005 AND origin='PHX' GROUP BY unique_carrier;",0.5
+ApproachType.TABLESAMPLE,8,1.633713612000065,4.03904821992941,96.22641509433963,53,"SELECT dest_state_abr, COUNT(*) FROM flights TABLESAMPLE SYSTEM(0.5) WHERE distance>2500 GROUP BY dest_state_abr;",0.5
+ApproachType.TABLESAMPLE,9,1.6720948330003012,11.621103014109067,100.0,26,"SELECT unique_carrier, COUNT(*) FROM flights TABLESAMPLE SYSTEM(0.5) WHERE air_time>1000 AND dep_delay>1500 GROUP BY unique_carrier;",0.5
+ApproachType.TABLESAMPLE,10,1.1692926200003058,4.819558930267734,100.0,22,"SELECT year_date, SUM(arr_delay*dep_delay) FROM flights TABLESAMPLE SYSTEM(0.5) WHERE origin_state_abr = 'CA' AND dest_state_abr = 'HI' GROUP BY year_date;",0.5
+ApproachType.TABLESAMPLE,11,1.0644026199997825,10.629185936903937,96.22641509433963,53,"SELECT dest_state_abr, SUM(taxi_out)-SUM(taxi_in) FROM flights TABLESAMPLE SYSTEM(0.5) WHERE unique_carrier = 'UA' AND origin = 'ATL' GROUP BY dest_state_abr;",0.5
