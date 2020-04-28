@@ -18,7 +18,21 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
-# Reproduce Experiments
+# How to experiment with DeepDB on a new Dataset
+- Specify a new schema in the schemas folder 
+- Due to the current implementation, make sure to declare
+    - the primary key,
+    - the filename of the csv sample file,
+    - the correct table size and sample rate,
+    - the relationships among tables if you do not just run queries over a single table,
+    - any non-key functional dependencies (this is rather an implementation detail),
+    - and include all columns in the no-compression list by default (as done for the IMDB benchmark),
+- To further reduce the training time, you can exclude columns you do not need in your experiments (also done in the IMDB benchmark)
+- Generate the HDF/sampled HDF files and learn the RSPN ensemble
+- Use the RSPN ensemble to answer queries
+- For reference, please check the commands to reproduce the results of the paper
+
+# How to Reproduce Experiments in the Paper
 
 ## Cardinality Estimation
 Download the [Job dataset](http://homepages.cwi.nl/~boncz/job/imdb.tgz).
