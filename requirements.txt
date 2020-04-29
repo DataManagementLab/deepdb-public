@@ -45,7 +45,7 @@ pytest==4.4.1
 python-dateutil==2.7.5
 pytz==2018.7
 pyverdict==0.1.3.2
-pyxdg==0.25
+pyxdg==0.26
 PyYAML==3.12
 requests==2.18.4
 scikit-learn==0.20.3
