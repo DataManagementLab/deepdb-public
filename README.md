@@ -9,6 +9,7 @@ Benjamin Hilprecht, Andreas Schmidt, Moritz Kulessa, Alejandro Molina, Kristian 
 ![DeepDB Overview](baselines/plots/overview.png "DeepDB Overview")
 
 # Setup
+Tested with python3.7 and python3.8
 ```
 git clone https://github.com/DataManagementLab/deepdb-public.git
 cd deepdb-public
@@ -18,21 +19,12 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
-# How to experiment with DeepDB on a new Dataset
-- Specify a new schema in the schemas folder 
-- Due to the current implementation, make sure to declare
-    - the primary key,
-    - the filename of the csv sample file,
-    - the correct table size and sample rate,
-    - the relationships among tables if you do not just run queries over a single table,
-    - any non-key functional dependencies (this is rather an implementation detail),
-    - and include all columns in the no-compression list by default (as done for the IMDB benchmark),
-- To further reduce the training time, you can exclude columns you do not need in your experiments (also done in the IMDB benchmark)
-- Generate the HDF/sampled HDF files and learn the RSPN ensemble
-- Use the RSPN ensemble to answer queries
-- For reference, please check the commands to reproduce the results of the paper
+For python3.8: Sometimes spflow fails, in this case remove spflow from requirements.txt, install them and run
+```
+pip3 install spflow --no-deps
+```
 
-# How to Reproduce Experiments in the Paper
+# Reproduce Experiments
 
 ## Cardinality Estimation
 Download the [Job dataset](http://homepages.cwi.nl/~boncz/job/imdb.tgz).
@@ -288,3 +280,61 @@ python3 maqp.py --evaluate_confidence_intervals
     --confidence_upsampling_factor 100
     --confidence_sample_size 10000000
 ```
+
+### TPC-DS (Single Table) pipeline
+As an additional example on how to work with DeepDB, we provide an example on just a single table of the TPC-DS schema for the queries in `./benchmarks/tpc_ds_single_table/sql/aqp_queries.sql`. As a prerequisite, you need a 10 million tuple sample of the store_sales table in the directory `../mqp-data/tpc-ds-benchmark/store_sales_sampled.csv`. Afterwards, 
+you can run the following commands. To compute the ground truth, you need a postgres instance with a 1T TPC-DS dataset.
+
+Generate hdf files from csvs
+```
+python3 maqp.py --generate_hdf
+    --dataset tpc-ds-1t
+    --csv_seperator |
+    --csv_path ../mqp-data/tpc-ds-benchmark
+    --hdf_path ../mqp-data/tpc-ds-benchmark/gen_hdf
+```
+
+Learn the ensemble
+```
+python3 maqp.py --generate_ensemble 
+    --dataset tpc-ds-1t
+    --samples_per_spn 10000000 
+    --ensemble_strategy single 
+    --hdf_path ../mqp-data/tpc-ds-benchmark/gen_hdf
+    --ensemble_path ../mqp-data/tpc-ds-benchmark/spn_ensembles 
+    --rdc_threshold 0.3 
+    --post_sampling_factor 10
+```
+
+Compute ground truth
+```
+python3 maqp.py --aqp_ground_truth
+    --dataset tpc-ds-1t
+    --query_file_location ./benchmarks/tpc_ds_single_table/sql/aqp_queries.sql
+    --target_path ./benchmarks/tpc_ds_single_table/ground_truth_1t.pkl
+    --database_name tcpds
+```
+
+Evaluate the AQP queries
+```
+python3 maqp.py --evaluate_aqp_queries
+    --dataset tpc-ds-1t
+    --target_path ./baselines/aqp/results/deepDB/tpcds1t_model_based.csv
+    --ensemble_location ../mqp-data/tpc-ds-benchmark/spn_ensembles/ensemble_single_tpc-ds-1t_10000000.pkl
+    --query_file_location ./benchmarks/tpc_ds_single_table/sql/aqp_queries.sql
+    --ground_truth_file_location ./benchmarks/tpc_ds_single_table/ground_truth_1t.pkl
+```
+
+# How to experiment with DeepDB on a new Dataset
+- Specify a new schema in the schemas folder 
+- Due to the current implementation, make sure to declare
+    - the primary key,
+    - the filename of the csv sample file,
+    - the correct table size and sample rate,
+    - the relationships among tables if you do not just run queries over a single table,
+    - any non-key functional dependencies (this is rather an implementation detail),
+    - and include all columns in the no-compression list by default (as done for the IMDB benchmark),
+- To further reduce the training time, you can exclude columns you do not need in your experiments (also done in the IMDB benchmark)
+- Generate the HDF/sampled HDF files and learn the RSPN ensemble
+- Use the RSPN ensemble to answer queries
+- For reference, please check the commands to reproduce the results of the paper

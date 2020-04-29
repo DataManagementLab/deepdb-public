@@ -1,195 +1,38 @@
 import copy
 import logging
-import time
-from functools import partial
 from time import perf_counter
 
 import numpy as np
-from spn.structure.Base import Context, Product
 from spn.structure.StatisticalTypes import MetaType
 
-from aqp_spn.aqp_leaves import Categorical
-from aqp_spn.aqp_leaves import IdentityNumericLeaf, identity_likelihood_range, identity_expectation, \
-    categorical_likelihood_range, identity_distinct_ranges, categorical_distinct_ranges
-from aqp_spn.aqp_leaves import Sum
-from aqp_spn.custom_spflow.custom_learning import learn_mspn
-from aqp_spn.expectations import expectation
 from aqp_spn.group_by_combination import group_by_combinations
-from aqp_spn.ranges import NominalRange, NumericRange
 from ensemble_compilation.spn_ensemble import CombineSPN
+from rspn.algorithms.ranges import NominalRange, NumericRange
+from rspn.rspn import RSPN
+from rspn.structure.leaves import IdentityNumericLeaf, identity_distinct_ranges, categorical_distinct_ranges, \
+    Categorical, identity_likelihood_range, categorical_likelihood_range
+from rspn.updates.top_down_updates import cluster_center_update_dataset
 
 logger = logging.getLogger(__name__)
 
 
-def build_ds_context(column_names, meta_types, null_values, table_meta_data, train_data, group_by_threshold=1200):
-    """
-    Builds context according to training data.
-    :param column_names:
-    :param meta_types:
-    :param null_values:
-    :param table_meta_data:
-    :param train_data:
-    :return:
-    """
-    ds_context = Context(meta_types=meta_types)
-    ds_context.null_values = null_values
-    assert ds_context.null_values is not None, "Null-Values have to be specified"
-    domain = []
-    no_unique_values = []
-    # If metadata is given use this to build domains for categorical values
-    unified_column_dictionary = None
-    if table_meta_data is not None:
-        unified_column_dictionary = {k: v for table, table_md in table_meta_data.items() if
-                                     table != 'inverted_columns_dict' and table != 'inverted_fd_dict'
-                                     for k, v in table_md['categorical_columns_dict'].items()}
-
-    # domain values
-    group_by_attributes = []
-    for col in range(train_data.shape[1]):
-
-        feature_meta_type = meta_types[col]
-        min_val = np.nanmin(train_data[:, col])
-        max_val = np.nanmax(train_data[:, col])
-
-        unique_vals = len(np.unique(train_data[:, col]))
-        no_unique_values.append(unique_vals)
-        if column_names is not None:
-            if unique_vals <= group_by_threshold and 'mul_' not in column_names[col] and '_nn' not in column_names[col]:
-                group_by_attributes.append(col)
-
-        domain_values = [min_val, max_val]
-
-        if feature_meta_type == MetaType.REAL:
-            min_val = np.nanmin(train_data[:, col])
-            max_val = np.nanmax(train_data[:, col])
-            domain.append([min_val, max_val])
-        elif feature_meta_type == MetaType.DISCRETE:
-            # if no metadata is given, infer domains from data
-            if column_names is not None \
-                    and unified_column_dictionary.get(column_names[col]) is not None:
-                no_diff_values = len(unified_column_dictionary[column_names[col]].keys())
-                domain.append(np.arange(0, no_diff_values + 1, 1))
-            else:
-                domain.append(np.arange(domain_values[0], domain_values[1] + 1, 1))
-        else:
-            raise Exception("Unkown MetaType " + str(meta_types[col]))
-
-    ds_context.domains = np.asanyarray(domain)
-    ds_context.no_unique_values = np.asanyarray(no_unique_values)
-    ds_context.group_by_attributes = group_by_attributes
-
-    return ds_context
-
-
-def insert_dataset(spn, dataset, metadata):
-    """
-    Updates the SPN when a new dataset arrives. The function recursively traverses the
-    tree and inserts the different values of a dataset at the according places.
-
-    At every sum node, the child node is selected, based on the minimal euclidian distance to the
-    cluster_center of on of the child-nodes.
-    :param spn: 
-    :param dataset:
-    :param metadata: root of aqp_spn containing meta-information (ensemble-object)
-    :return: 
-    """
-
-    if isinstance(spn, Categorical):
-
-        spn.updateStatistics(dataset, metadata)
-
-        return spn
-    elif isinstance(spn, IdentityNumericLeaf):
-
-        spn.updateStatistics(dataset, metadata)
-
-        return spn
-    elif isinstance(spn, Sum):
-        cc = spn.cluster_centers
-
-        node_idx = 0
-
-        from scipy.spatial import distance
-        min_dist = np.inf
-        min_idx = -1
-        for n in spn.children:
-            # distance calculation between the dataset and the different clusters
-            # (there exist a much faster version on scipy)
-            # this? https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise_distances.html
-            #
-            proj = projection(dataset, n.scope)
-            dist = distance.euclidean(cc[node_idx], proj)
-            if dist < min_dist:
-                min_dist = dist
-                min_idx = node_idx
-
-            node_idx += 1
-        assert min_idx > -1
-        assert min_idx < len(spn.children)
-        adapt_weights(spn, min_idx)
-        insert_dataset(spn.children[min_idx], dataset, metadata)
-    elif isinstance(spn, Product):
-
-        for n in spn.children:
-            proj = projection(dataset, n.scope)
-            insert_dataset(n, dataset, metadata)
-    else:
-        raise Exception("Invalid node type " + str(type(spn)))
-    spn.cardinality += 1
-
-
-def adapt_weights(sum_node, selected_child_idx):
-    assert isinstance(sum_node, Sum), "adapt_weights called on non Sum-node"
-
-    card = sum_node.cardinality
-    from math import isclose
-    cardinalities = np.array(sum_node.weights) * card
-
-    cardinalities[selected_child_idx] += 1
-
-    sum_node.weights = cardinalities / (card + 1)
-    sum_node.weights = sum_node.weights.tolist()
-
-    weight_sum = np.sum(sum_node.weights)
-
-    assert isclose(weight_sum, 1, abs_tol=0.05)
-
-
-def projection(dataset, scope):
-    projection = []
-    for idx in scope:
-        assert len(dataset) > idx, "wrong scope " + str(scope) + " for dataset" + str(dataset)
-        projection.append(dataset[idx])
-    return projection
-
-
-class AQPSPN(CombineSPN):
+class AQPSPN(CombineSPN, RSPN):
 
     def __init__(self, meta_types, null_values, full_join_size, schema_graph, relationship_list, full_sample_size=None,
                  table_set=None, column_names=None, table_meta_data=None):
 
-        CombineSPN.__init__(self, full_join_size, schema_graph, relationship_list, table_set=table_set)
-
-        self.meta_types = meta_types
-        self.null_values = null_values
-        self.full_sample_size = full_sample_size
+        full_sample_size = full_sample_size
         if full_sample_size is None:
-            self.full_sample_size = full_join_size
-        self.column_names = column_names
-        self.table_meta_data = table_meta_data
-        self.mspn = None
-        self.ds_context = None
+            full_sample_size = full_join_size
 
-        self.use_generated_code = False
-
-        # training stats
-        self.learn_time = None
-        self.rdc_threshold = None
-        self.min_instances_slice = None
+        CombineSPN.__init__(self, full_join_size, schema_graph, relationship_list, table_set=table_set)
+        RSPN.__init__(self, meta_types, null_values, full_sample_size,
+                      column_names=column_names,
+                      table_meta_data=table_meta_data)
 
     def add_dataset(self, dataset):
         """
-        modifies the SPN, based on new dataset.
+        modifies the RSPN based on new dataset.
         What has to be done?
             - Traverse the tree to find the leave nodes where the values have to be added.
             - Depending on the leaf-nodes, the data in the nodes (mean, unique_vale, p, ...) have to be changed
@@ -215,49 +58,28 @@ class AQPSPN(CombineSPN):
             dataset), "dataset has a differnt number of columns as spn. spn expects " + str(
             str(len(self.mspn.scope))) + " columns, but dataset has " + str(len(dataset)) + " columns"
 
-        # from var_dump import var_dump
-        # print(var_dump(self.mspn))
-
-        insert_dataset(self.mspn, dataset, self)
+        cluster_center_update_dataset(self.mspn, dataset)
         self.full_sample_size += 1
         self.full_join_size += 1
 
     def learn(self, train_data, rdc_threshold=0.3, min_instances_slice=1, max_sampling_threshold_cols=10000,
               max_sampling_threshold_rows=100000, bloom_filters=False):
 
-        # build domains (including the dependence analysis)
-        domain_start_t = time.perf_counter()
-        ds_context = build_ds_context(self.column_names, self.meta_types, self.null_values, self.table_meta_data,
-                                      train_data)
-        self.ds_context = ds_context
-        domain_end_t = time.perf_counter()
-        logging.debug(f"Built domains in {domain_end_t - domain_start_t} sec")
-
-        # learn mspn
-        learn_start_t = time.perf_counter()
-
         # find scopes for variables which indicate not null column
+        no_compression_scopes = None
         if self.column_names is not None:
-            ds_context.no_compression_scopes = []
+            no_compression_scopes = []
             for table in self.table_set:
                 table_obj = self.schema_graph.table_dictionary[table]
                 for attribute in table_obj.no_compression:
                     column_name = table + '.' + attribute
                     if column_name in self.column_names:
-                        ds_context.no_compression_scopes.append(self.column_names.index(column_name))
+                        no_compression_scopes.append(self.column_names.index(column_name))
 
-        self.mspn = learn_mspn(train_data, ds_context,
-                               min_instances_slice=min_instances_slice, threshold=rdc_threshold,
-                               max_sampling_threshold_cols=max_sampling_threshold_cols,
-                               max_sampling_threshold_rows=max_sampling_threshold_rows,
-                               bloom_filters=bloom_filters)
-        learn_end_t = time.perf_counter()
-        self.learn_time = learn_end_t - learn_start_t
-        logging.debug(f"Built SPN in {learn_end_t - learn_start_t} sec")
-
-        # statistics
-        self.rdc_threshold = rdc_threshold
-        self.min_instances_slice = min_instances_slice
+        RSPN.learn(self, train_data, rdc_threshold=rdc_threshold, min_instances_slice=min_instances_slice,
+                   max_sampling_threshold_cols=max_sampling_threshold_cols,
+                   max_sampling_threshold_rows=max_sampling_threshold_rows,
+                   no_compression_scopes=no_compression_scopes)
 
     def learn_incremental(self, data):
         """
@@ -280,13 +102,6 @@ class AQPSPN(CombineSPN):
             "f{len(data)} datasets inserted in {(add_ds_end_t - add_ds_start_t)} secs. ({(add_ds_end_t - add_ds_start_t)/len(data)} sec./dataset")
 
         return self
-
-    # def predict(self, ranges, feature):
-    #     assert feature in self.column_names, "Feature not in column names"
-    #     regressor_idx = self.column_names.index(feature)
-    #
-    #     prediction = predict(self.mspn, ranges, regressor_idx)
-    #     return prediction
 
     def evaluate_expectation(self, expectation, standard_deviations=False, gen_code_stats=None):
         """
@@ -549,236 +364,6 @@ class AQPSPN(CombineSPN):
 
         return group_by_combinations(self.mspn, self.ds_context, feature_scope, range_conditions,
                                      node_distinct_vals=_node_distinct_values, node_likelihoods=_node_likelihoods_range)
-
-    def _add_null_values_to_ranges(self, range_conditions):
-        for col in range(range_conditions.shape[1]):
-            if range_conditions[0][col] is None:
-                continue
-            for idx in range(range_conditions.shape[0]):
-                range_conditions[idx, col].null_value = self.null_values[col]
-
-        return range_conditions
-
-    def _probability(self, range_conditions):
-        """
-        Compute probability of range conditions.
-
-        e.g. np.array([NominalRange([0]), NumericRange([[0,0.3]]), None])
-        """
-
-        return self._indicator_expectation([], range_conditions=range_conditions)
-
-    def _indicator_expectation(self, feature_scope, identity_leaf_expectation=None, inverted_features=None,
-                               range_conditions=None, force_no_generated=False, gen_code_stats=None):
-        """
-        Compute E[1_{conditions} * X_feature_scope]. Can also compute products (specify multiple feature scopes).
-        For inverted features 1/val is used.
-
-        Is basis for both unnormalized and normalized expectation computation.
-
-        Uses safe evaluation for products, i.e. compute extra expectation for every multiplier. If results deviate too
-        largely (>max_deviation), replace by mean. We also experimented with splitting the multipliers into 10 random
-        groups. However, this works equally well and is faster.
-        """
-
-        if inverted_features is None:
-            inverted_features = [False] * len(feature_scope)
-
-        if range_conditions is None:
-            range_conditions = np.array([None] * len(self.mspn.scope)).reshape(1, len(self.mspn.scope))
-        else:
-            range_conditions = self._add_null_values_to_ranges(range_conditions)
-
-        if identity_leaf_expectation is None:
-            _node_expectation = {IdentityNumericLeaf: identity_expectation}
-        else:
-            _node_expectation = {IdentityNumericLeaf: identity_leaf_expectation}
-
-        _node_likelihoods_range = {IdentityNumericLeaf: identity_likelihood_range,
-                                   Categorical: categorical_likelihood_range}
-
-        if hasattr(self, 'use_generated_code') and self.use_generated_code and not force_no_generated:
-            full_result = expectation(self.mspn, feature_scope, inverted_features, range_conditions,
-                                      node_expectation=_node_expectation, node_likelihoods=_node_likelihoods_range,
-                                      use_generated_code=True, spn_id=self.id, meta_types=self.meta_types,
-                                      gen_code_stats=gen_code_stats)
-        else:
-            full_result = expectation(self.mspn, feature_scope, inverted_features, range_conditions,
-                                      node_expectation=_node_expectation, node_likelihoods=_node_likelihoods_range)
-
-        return full_result
-
-    def _augment_not_null_conditions(self, feature_scope, range_conditions):
-        if range_conditions is None:
-            range_conditions = np.array([None] * len(self.mspn.scope)).reshape(1, len(self.mspn.scope))
-
-        # for second computation make sure that features that are not normalized are not NULL
-        for not_null_scope in feature_scope:
-            if self.null_values[not_null_scope] is None:
-                continue
-
-            if range_conditions[0, not_null_scope] is None:
-                if self.meta_types[not_null_scope] == MetaType.REAL:
-                    range_conditions[:, not_null_scope] = NumericRange([[-np.inf, np.inf]], is_not_null_condition=True)
-                elif self.meta_types[not_null_scope] == MetaType.DISCRETE:
-                    NumericRange([[-np.inf, np.inf]], is_not_null_condition=True)
-                    categorical_feature_name = self.column_names[not_null_scope]
-
-                    for table in self.table_meta_data.keys():
-                        categorical_values = self.table_meta_data[table]['categorical_columns_dict'] \
-                            .get(categorical_feature_name)
-                        if categorical_values is not None:
-                            possible_values = list(categorical_values.values())
-                            possible_values.remove(self.null_values[not_null_scope])
-                            range_conditions[:, not_null_scope] = NominalRange(possible_values,
-                                                                               is_not_null_condition=True)
-                            break
-
-        return range_conditions
-
-    def _indicator_expectation_with_std(self, feature_scope, inverted_features=None,
-                                        range_conditions=None):
-        """
-        Computes standard deviation of the estimator for 1_{conditions}*X_feature_scope. Uses the identity
-        V(X)=E(X^2)-E(X)^2.
-        :return:
-        """
-        e_x = self._indicator_expectation(feature_scope, identity_leaf_expectation=identity_expectation,
-                                          inverted_features=inverted_features,
-                                          range_conditions=range_conditions)
-
-        not_null_conditions = self._augment_not_null_conditions(feature_scope, None)
-        n = self._probability(not_null_conditions) * self.full_sample_size
-
-        # shortcut: use binomial std if it is just a probability
-        if len(feature_scope) == 0:
-            std = np.sqrt(e_x * (1 - e_x) * 1 / n)
-            return std, e_x
-
-        e_x_sq = self._indicator_expectation(feature_scope,
-                                             identity_leaf_expectation=partial(identity_expectation, power=2),
-                                             inverted_features=inverted_features,
-                                             range_conditions=range_conditions,
-                                             force_no_generated=True)
-
-        v_x = e_x_sq - e_x * e_x
-
-        # Indeed divide by sample size of SPN not only qualifying tuples. Because this is not a conditional expectation.
-        std = np.sqrt(v_x / n)
-
-        return std, e_x
-
-    def _unnormalized_conditional_expectation(self, feature_scope, inverted_features=None, range_conditions=None,
-                                              impute_p=False, gen_code_stats=None):
-        """
-        Compute conditional expectation. Can also compute products (specify multiple feature scopes).
-        For inverted features 1/val is used. Normalization is not possible here.
-        """
-
-        range_conditions = self._augment_not_null_conditions(feature_scope, range_conditions)
-        unnormalized_exp = self._indicator_expectation(feature_scope, inverted_features=inverted_features,
-                                                       range_conditions=range_conditions, gen_code_stats=gen_code_stats)
-
-        p = self._probability(range_conditions)
-        if any(p == 0):
-            if impute_p:
-                impute_val = np.mean(
-                    unnormalized_exp[np.where(p != 0)[0]] / p[np.where(p != 0)[0]])
-                result = unnormalized_exp / p
-                result[np.where(p == 0)[0]] = impute_val
-                return result
-
-            return self._indicator_expectation(feature_scope, inverted_features=inverted_features,
-                                               gen_code_stats=gen_code_stats)
-
-        return unnormalized_exp / p
-
-    def _unnormalized_conditional_expectation_with_std(self, feature_scope, inverted_features=None,
-                                                       range_conditions=None, gen_code_stats=None):
-        """
-        Compute conditional expectation. Can also compute products (specify multiple feature scopes).
-        For inverted features 1/val is used. Normalization is not possible here.
-        """
-        range_conditions = self._augment_not_null_conditions(feature_scope, range_conditions)
-        p = self._probability(range_conditions)
-
-        e_x_sq = self._indicator_expectation(feature_scope,
-                                             identity_leaf_expectation=partial(identity_expectation, power=2),
-                                             inverted_features=inverted_features,
-                                             range_conditions=range_conditions,
-                                             force_no_generated=True,
-                                             gen_code_stats=gen_code_stats) / p
-
-        e_x = self._indicator_expectation(feature_scope, inverted_features=inverted_features,
-                                          range_conditions=range_conditions,
-                                          gen_code_stats=gen_code_stats) / p
-
-        v_x = e_x_sq - e_x * e_x
-
-        n = p * self.full_sample_size
-        std = np.sqrt(v_x / n)
-
-        return std, e_x
-
-    def _normalized_conditional_expectation(self, feature_scope, inverted_features=None, normalizing_scope=None,
-                                            range_conditions=None, standard_deviations=False, impute_p=False,
-                                            gen_code_stats=None):
-        """
-        Computes unbiased estimate for conditional expectation E(feature_scope| range_conditions).
-        To this end, normalization might be required (will always be certain multipliers.)
-        E[1_{conditions} * X_feature_scope] / E[1_{conditions} * X_normalizing_scope]
-
-        :param feature_scope:
-        :param inverted_features:
-        :param normalizing_scope:
-        :param range_conditions:
-        :return:
-        """
-        if range_conditions is None:
-            range_conditions = np.array([None] * len(self.mspn.scope)).reshape(1, len(self.mspn.scope))
-
-        # If normalization is not required, simply return unnormalized conditional expectation
-        if normalizing_scope is None or len(normalizing_scope) == 0:
-            if standard_deviations:
-                return self._unnormalized_conditional_expectation_with_std(feature_scope,
-                                                                           inverted_features=inverted_features,
-                                                                           range_conditions=range_conditions,
-                                                                           gen_code_stats=gen_code_stats)
-            else:
-                return None, self._unnormalized_conditional_expectation(feature_scope,
-                                                                        inverted_features=inverted_features,
-                                                                        range_conditions=range_conditions,
-                                                                        impute_p=impute_p,
-                                                                        gen_code_stats=gen_code_stats)
-
-        assert set(normalizing_scope).issubset(feature_scope), "Normalizing scope must be subset of feature scope"
-
-        # for computation make sure that features that are not normalized are not NULL
-        range_conditions = self._augment_not_null_conditions(set(feature_scope).difference(normalizing_scope),
-                                                             range_conditions)
-
-        # E[1_{conditions} * X_feature_scope]
-        std = None
-        if standard_deviations:
-            std, _ = self._unnormalized_conditional_expectation_with_std(feature_scope,
-                                                                         inverted_features=inverted_features,
-                                                                         range_conditions=range_conditions,
-                                                                         gen_code_stats=gen_code_stats)
-
-        nominator = self._indicator_expectation(feature_scope,
-                                                inverted_features=inverted_features,
-                                                range_conditions=range_conditions,
-                                                gen_code_stats=gen_code_stats)
-
-        # E[1_{conditions} * X_normalizing_scope]
-        inverted_features_of_norm = \
-            [inverted_features[feature_scope.index(variable_scope)] for variable_scope in normalizing_scope]
-        assert all(inverted_features_of_norm), "Normalizing factors should be inverted"
-
-        denominator = self._indicator_expectation(normalizing_scope,
-                                                  inverted_features=inverted_features_of_norm,
-                                                  range_conditions=range_conditions)
-        return std, nominator / denominator
 
     def _parse_conditions(self, conditions, group_by_columns=None, group_by_tuples=None):
         """

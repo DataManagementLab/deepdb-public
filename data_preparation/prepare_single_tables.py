@@ -19,7 +19,8 @@ def read_table_csv(table_obj, csv_seperator=','):
     for attribute in table_obj.irrelevant_attributes:
         df_rows = df_rows.drop(table_obj.table_name + '.' + attribute, axis=1)
 
-    return df_rows.convert_objects()
+    return df_rows.apply(pd.to_numeric, errors="ignore")
+    # return df_rows.convert_objects()
 
 
 def find_relationships(schema_graph, table, incoming=True):
@@ -101,6 +102,9 @@ def prepare_single_table(schema_graph, table, path, max_distinct_vals=10000, csv
         table_primary_key = table + '.' + table_obj.primary_key[0]
         assert table_primary_key == left_attribute, "Currently, only references to primary key are supported"
 
+        # fix for new pandas version
+        table_data.index.name = None
+        neighbor_table_data.index.name = None
         muls = table_data.join(neighbor_table_data, how='left')[[table_primary_key, right_attribute]] \
             .groupby([table_primary_key]).count()
 

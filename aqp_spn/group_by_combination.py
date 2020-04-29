@@ -5,9 +5,9 @@ import numpy as np
 from spn.algorithms.Inference import likelihood
 from spn.structure.Base import get_nodes_by_type, Leaf, Product, eval_spn_bottom_up, assign_ids
 
-from aqp_spn.aqp_leaves import Sum
-from aqp_spn.custom_spflow.custom_transform_structure import Prune
-from aqp_spn.custom_spflow.custom_validity import is_valid
+from rspn.algorithms.transform_structure import Prune
+from rspn.algorithms.validity.validity import is_valid
+from rspn.structure.base import Sum
 
 logger = logging.getLogger(__name__)
 
@@ -58,17 +58,6 @@ def prod_group_by(node, children, data=None, dtype=np.float64):
                 result_values = [result_value + (matching_value[matching_idx],) for result_value in result_values for
                                  matching_value in matching_values]
                 # assert len(result_values) <= len(group_by_scopes)
-        old_len = len(result_values)
-        if hasattr(node, 'binary_bloom_filters'):  # , "For grouping product nodes must have bloom filters."
-            for scope, bloom_filter in node.binary_bloom_filters.items():
-                if scope[0] in group_by_scopes and scope[1] in group_by_scopes:
-                    idx_left = group_by_scopes.index(scope[0])
-                    idx_right = group_by_scopes.index(scope[1])
-                    result_values = [result_value for result_value in result_values if
-                                     (result_value[idx_left], result_value[idx_right],) in bloom_filter]
-        if old_len > len(result_values):
-            logger.debug(
-                f"\t\tDue to bloom filters results were reduced by {(1 - len(result_values) / old_len) * 100}%")
         return group_by_scopes, set(result_values)
     # Only probabilities, normal inference
     elif contains_probs:
@@ -191,9 +180,6 @@ def marginalize(node, keep, light=False):
             newNode.weights.extend(node.weights)
             if not light:
                 newNode.cluster_centers.extend(node.cluster_centers)
-        if isinstance(node, Product):
-            if hasattr(node, 'binary_bloom_filters'):
-                newNode.binary_bloom_filters = node.binary_bloom_filters
 
         for c in node.children:
             new_c = marg_recursive(c)
@@ -210,9 +196,9 @@ def marginalize(node, keep, light=False):
 
     if not light:
         assign_ids(newNode)
-        newNode = Prune(newNode, light=light)
+        newNode = Prune(newNode, check_cluster_centers=light)
 
-        valid, err = is_valid(newNode, light=light)
+        valid, err = is_valid(newNode, check_cluster_centers=light)
         assert valid, err
     # Loc.leave()
     return newNode

@@ -6,7 +6,7 @@ import time
 
 import numpy as np
 
-from aqp_spn.code_generation.generate_code import generate_ensemble_code
+from rspn.code_generation.generate_code import generate_ensemble_code
 from data_preparation.join_data_preparation import prepare_sample_hdf
 from data_preparation.prepare_single_tables import prepare_all_tables
 from ensemble_compilation.spn_ensemble import read_ensemble
@@ -16,6 +16,7 @@ from evaluation.confidence_interval_evaluation import evaluate_confidence_interv
 from schemas.flights.schema import gen_flights_1B_schema
 from schemas.imdb.schema import gen_job_light_imdb_schema
 from schemas.ssb.schema import gen_500gb_ssb_schema
+from schemas.tpc_ds.schema import gen_1t_tpc_ds_schema
 
 np.random.seed(1)
 
@@ -118,6 +119,8 @@ if __name__ == '__main__':
         schema = gen_500gb_ssb_schema(table_csv_path)
     elif args.dataset == 'flights1B':
         schema = gen_flights_1B_schema(table_csv_path)
+    elif args.dataset == 'tpc-ds-1t':
+        schema = gen_1t_tpc_ds_schema(table_csv_path)
     else:
         raise ValueError('Dataset unknown')
 

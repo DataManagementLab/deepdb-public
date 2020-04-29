@@ -1,11 +1,9 @@
 import copy
 import logging
+import math
 import pickle
 import random
 
-import dask.dataframe as dd
-import gc
-import math
 import pandas as pd
 from spn.structure.StatisticalTypes import MetaType
 
@@ -446,6 +444,8 @@ class JoinDataPreparator:
                     # df_samples = df_samples.join(next_table_data, how='left') #20s
                     # df_samples = df_samples.merge(next_table_data, how='left', right_on=left_attribute,
                     #   left_index=True) #34s
+                    # fix pandas error
+                    df_samples.index.name = None
                     df_samples = df_samples.merge(next_table_data, how='left', right_index=True,
                                                   left_on=right_attribute)
 
@@ -475,6 +475,9 @@ class JoinDataPreparator:
 
                     df_samples = df_samples.set_index(left_attribute, drop=False)
                     next_table_data = next_table_data.set_index(right_attribute, drop=False)
+                    # fix pandas error
+                    df_samples.index.name = None
+                    # next_table_data.index.name = None
                     df_samples = df_samples.merge(next_table_data, how='left', right_index=True,
                                                   left_on=left_attribute)  # 10s, 15s
                     # df_samples.merge(next_table_data, how='left', right_on=right_attribute,

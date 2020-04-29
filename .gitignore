@@ -129,6 +129,7 @@ benchmarks/maqp_scripts/rsync_dm.sh
 # profiling
 profiling_results
 profiling.py
+bar.pdf
 *.lprof
 
 optimized_inference.cpp
