@@ -338,3 +338,20 @@ python3 maqp.py --evaluate_aqp_queries
 - Generate the HDF/sampled HDF files and learn the RSPN ensemble
 - Use the RSPN ensemble to answer queries
 - For reference, please check the commands to reproduce the results of the paper
+
+
+# Reference
+If you find this repository useful in your work, please cite our paper:
+
+```
+@inproceedings{deepdb,
+  title={DeepDB: Learn from Data, not from Queries!},
+  author = {Benjamin Hilprecht and Andreas Schmidt and Moritz Kulessa and Alejandro Molina and Kristian Kersting and Carsten Binnig},
+  journal={Proceedings of the VLDB Endowment},
+  volume={13},
+  number={7},
+  pages={992--1005},
+  year={2020},
+  publisher={VLDB Endowment}
+}
+```
