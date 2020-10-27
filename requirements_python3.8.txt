@@ -8,7 +8,7 @@ cffi==1.14.0
 chardet==3.0.4
 cloudpickle==1.2.1
 colorama==0.4.1
-cryptography==2.9.2
+cryptography==3.2
 cycler==0.10.0
 dataclasses==0.6
 decorator==4.4.0
